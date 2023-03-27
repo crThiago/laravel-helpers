@@ -1,0 +1,28 @@
+{
+    "name": "crthiago/laravel-helpers",
+    "description": "Useful functions to use in your Laravel projects",
+    "version": "1.0.0",
+    "type": "helper",
+    "require-dev": {
+        "nunomaduro/phpinsights": "^2.7",
+        "orchestra/testbench": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Crthiago\\LaravelHelpers\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Thiago Rodrigues Costa"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
