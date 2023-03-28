@@ -3,12 +3,12 @@ O projeto Laravel Helpers é um pacote de funções e classes que facilitam o de
 
 ## Instalação
 ```bash
-  composer require laravel-helpers
+  composer require crthiago/laravel-helpers
 ```
 ## Configuração
 Caso deseje customizar as configurações padrão do pacote, basta publicar o arquivo de configuração.
 ```bash
-  php artisan vendor:publish --provider="LaravelHelpers\Providers\LaravelHelpersServiceProvider"
+  php artisan vendor:publish --provider="Crthiago\LaravelHelpers\LaravelHelpersServiceProvider"
 ```
     
 ## Modo de Uso
