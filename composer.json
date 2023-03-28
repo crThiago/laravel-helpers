@@ -1,7 +1,7 @@
 {
     "name": "crthiago/laravel-helpers",
     "description": "Funções e Classes que facilitam o desenvolvimento de aplicações BR desenvolvidas em Laravel.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "MIT",
     "type": "helper",
     "keywords": [
