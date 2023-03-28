@@ -1,8 +1,15 @@
 {
     "name": "crthiago/laravel-helpers",
-    "description": "Useful functions to use in your Laravel projects",
+    "description": "Funções e Classes que facilitam o desenvolvimento de aplicações BR desenvolvidas em Laravel.",
     "version": "1.0.0",
+    "license": "MIT",
     "type": "helper",
+    "keywords": [
+        "laravel",
+        "helpers",
+        "functions",
+        "classes"
+    ],
     "require-dev": {
         "nunomaduro/phpinsights": "^2.7",
         "orchestra/testbench": "^8.0"
