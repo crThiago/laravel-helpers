@@ -47,8 +47,65 @@ datetime_db('01/02/2018 12:30:00'); // '2018-02-01 12:30:00'
 ```
 
 ### Mask
+
+| Função | Classe | Descrição |
+| --- | --- | --- |
+| `mask_cpf` | `Mask::cpf` | Aplica máscara a uma string ou número: **000.000.000-00** |
+| `mask_cnpj` | `Mask::cnpj` | Aplica máscara a uma string ou número: **00.000.000/0000-00** |
+| `mask_phone` | `Mask::phone` | Aplica máscara a uma string ou número: **(00) 0000-0000** - **(00) 00000-0000**  |
+| `mask_cep` | `Mask::cep` | Aplica máscara a uma string ou número: **00000-000** |
+| `mask_custom` | `Mask::custom` | Aplica máscara customizada a uma string ou número |
+
+**Exemplos:**
+
+```php
+mask_cpf('12345678900'); // '123.456.789-00'
+mask_cpf(12); // '000.000.000-12'
+mask_cpf('cpf: 023.456.789-00'); // '023.456.789-00'
+-----
+mask_cnpj(12345678000190); // '12.345.678/0001-90'
+-----
+mask_phone('12345678901'); // '(12) 34567-8901'
+mask_phone(1234567890); // '(12) 3456-7890'
+mask_phone('phone: (12) 34567-8901'); // '(12) 34567-8901'
+-----
+mask_cep('12345678'); // '12345-678'
+-----
+mask_custom(12345678900, '###.###.###-##'); // '123.456.789-00'
+```
+
 ### Sanitize
+
+| Função | Classe | Descrição |
+| --- | --- | --- |
+| `remove_accents` | `Sanitize::removeAccents` | Remove acentos de uma string |
+| `remove_special_characters` | `Sanitize::removeSpecialCharacters` | Remove todos caracteres especiais de uma string |
+
+**Exemplos**
+
+```php
+remove_accents('áàãâä'); // 'aaaaa'
+-----
+remove_special_characters('abc123!@#$%&*()áàãâäéèêëíìîïóòõôöúùûüç'); // 'abc123'
+```
+
 ### Validate
+
+| Função | Classe | Descrição |
+| --- | --- | --- |
+| `validate_cpf` | `Validate::cpf` | Valida se a string ou int é um cpf válido |
+| `validate_cnpj` | `Validate::cnpj` | Valida se a string ou int é um cnpj válido |
+
+**Exemplos**
+
+```php
+validate_cpf(3488506037); // true
+validate_cpf('034.885.060-37'); // true
+validate_cpf('12345678901'); // false
+-----
+validate_cnpj('29.848.999/0001-05'); // true
+validate_cnpj('12345678901234'); // false
+```
 
 
 ## Contribuição
