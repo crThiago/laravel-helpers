@@ -1,19 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crthiago\LaravelHelpers\Classes;
 
-class Format
+final class Format
 {
-
     /** method to format money
      *
-     * @param string|float $number
-     * @param string|bool $prefix
-     * @param int $decimals
-     * @param string $decimalSeparator
-     * @param string $thousandSeparator
+     * @param string|float $number Number to format
+     * @param string|bool $prefix [optional] Prefix to add before number (default: R$ )
+     * @param int $decimals [optional] Number of decimals (default: 2)
+     * @param string $decimalSeparator [optional] Decimal separator (default: ,)
+     * @param string $thousandSeparator [optional] Thousand separator (default: .)
      *
-     * @return string
+     * @return string Formatted number
      */
     public static function money(
         string|float $number,
@@ -22,7 +23,7 @@ class Format
         string $decimalSeparator = ',',
         string $thousandSeparator = '.'
     ): string {
-        $number = number_format($number, $decimals, $decimalSeparator, $thousandSeparator);
+        $number = number_format((float) $number, $decimals, $decimalSeparator, $thousandSeparator);
         if ($prefix) {
             $number = $prefix . $number;
         }
@@ -31,10 +32,10 @@ class Format
 
     /** method to format number to database
      *
-     * @param string $number
-     * @param string $thousandSeparator
+     * @param string $number Number to format
+     * @param string $thousandSeparator [optional] Thousand separator (default: .)
      *
-     * @return float
+     * @return float Formatted number
      */
     public static function numberDb(string $number, string $thousandSeparator = '.'): float
     {
@@ -47,10 +48,10 @@ class Format
 
     /** method to format date
      *
-     * @param string $date
-     * @param string $format
+     * @param string $date Date to format
+     * @param string|null $format [optional] Format to use (default: d/m/Y)
      *
-     * @return string
+     * @return string Formatted date
      */
     public static function date(string $date, string|null $format = null): string
     {
@@ -59,10 +60,10 @@ class Format
 
     /** method to format datetime
      *
-     * @param string $date
-     * @param string $format
+     * @param string $date Date to format
+     * @param string|null $format [optional] Format to use (default: d/m/Y H:i:s)
      *
-     * @return string
+     * @return string Formatted date
      */
     public static function datetime(string $date, string|null $format = null): string
     {
@@ -71,10 +72,10 @@ class Format
 
     /** method to format date to database
      *
-     * @param string $date_string
-     * @param string $format
+     * @param string $date_string Date to format
+     * @param string|null $format [optional] Format to use (default: d/m/Y)
      *
-     * @return string
+     * @return string Formatted date
      */
     public static function dateDb(string $date_string, string|null $format = null): string
     {
@@ -84,10 +85,10 @@ class Format
 
     /** method to format datetime to database
      *
-     * @param string $date_string
-     * @param string $format
+     * @param string $date_string Date to format
+     * @param string|null $format [optional] Format to use (default: d/m/Y H:i:s)
      *
-     * @return string
+     * @return string Formatted date
      */
     public static function datetimeDb(string $date_string, string|null $format = null): string
     {

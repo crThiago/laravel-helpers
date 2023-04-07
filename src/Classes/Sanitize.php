@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crthiago\LaravelHelpers\Classes;
 
-class Sanitize
+final class Sanitize
 {
     /**
      * Remove accents from string
      *
-     * @param string $string
-     * @return string
+     * @param string $string String to remove accents
+     *
+     * @return string String without accents
      */
     public static function removeAccents(string $string): string
     {
@@ -29,8 +32,9 @@ class Sanitize
     /**
      * Remove special characters from string
      *
-     * @param string $string
-     * @return string
+     * @param string $string String to remove special characters
+     *
+     * @return string String without special characters
      */
     public static function removeSpecialCharacters(string $string): string
     {

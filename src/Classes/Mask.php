@@ -1,15 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crthiago\LaravelHelpers\Classes;
 
-class Mask
+final class Mask
 {
     /**
      * Mask CPF
      *
-     * @param  string|int  $cpf
-     * @return string
-     * @throws \Exception
+     * @param  string|int  $cpf Value to mask
+     *
+     * @return string CPF masked
+     *
+     * @throws \Exception Invalid length
      */
     public static function cpf(string|int $cpf): string
     {
@@ -24,9 +28,11 @@ class Mask
     /**
      * Mask CNPJ
      *
-     * @param  string|int  $cnpj
-     * @return string
-     * @throws \Exception
+     * @param  string|int  $cnpj Value to mask
+     *
+     * @return string CNPJ masked
+     *
+     * @throws \Exception Invalid length
      */
     public static function cnpj(string|int $cnpj): string
     {
@@ -41,11 +47,13 @@ class Mask
     /**
      * Mask phone
      *
-     * @param  string|int  $phone
-     * @return string
-     * @throws \Exception
+     * @param  string|int  $phone Value to mask
+     *
+     * @return string Phone masked
+     *
+     * @throws \Exception Invalid length
      */
-    public static function phone(string $phone): string
+    public static function phone(string|int $phone): string
     {
         $phone = preg_replace('/[^0-9]/', '', (string) $phone);
         if (strlen($phone) < 10 || strlen($phone) > 11) {
@@ -54,6 +62,15 @@ class Mask
         return preg_replace('/(\d{2})(\d{5}|\d{4})(\d{4})/', '($1) $2-$3', $phone);
     }
 
+    /**
+     * Mask CEP
+     *
+     * @param  string|int  $cep Value to mask
+     *
+     * @return string CEP masked
+     *
+     * @throws \Exception Invalid length
+     */
     public static function cep(string|int $cep): string
     {
         $cep = preg_replace('/[^0-9]/', '', (string) $cep);
@@ -64,6 +81,17 @@ class Mask
         return preg_replace(self::cepFormatDefault(), '$1-$2', $cep);
     }
 
+    /**
+     * Custom mask
+     *
+     * @param  string|int  $value Value to mask
+     * @param  string  $mask Mask format
+     * @param  int|bool  $padType [optional] STR_PAD_LEFT, STR_PAD_RIGHT, STR_PAD_BOTH or false to disable padding (default: STR_PAD_LEFT)
+     *
+     * @return string Masked value
+     *
+     * @throws \Exception Invalid length
+     */
     public static function custom(string|int $value, string $mask, int|bool $padType = STR_PAD_LEFT): string
     {
         $value = preg_replace('/[^0-9]/', '', (string) $value);
@@ -75,16 +103,11 @@ class Mask
         }
 
         $maskared = '';
-        $k = 0;
-        for ($i = 0; $i <= strlen($mask) - 1; $i++) {
-            if ($mask[$i] === '#') {
-                if (isset($value[$k])) {
-                    $maskared .= $value[$k++];
-                }
-            } else {
-                if (isset($mask[$i])) {
-                    $maskared .= $mask[$i];
-                }
+        for ($i = 0, $k = 0, $length = strlen($mask); $i < $length; $i++) {
+            if ($mask[$i] === '#' && isset($value[$k])) {
+                $maskared .= $value[$k++];
+            } elseif (isset($mask[$i])) {
+                $maskared .= $mask[$i];
             }
         }
         return $maskared;
@@ -92,8 +115,7 @@ class Mask
 
     private static function lengthHashtag(string $string): int
     {
-        $count = 0;
-        for ($i = 0; $i < strlen($string); $i++) {
+        for ($i = 0, $count = 0, $length = strlen($string); $i < $length; $i++) {
             if ($string[$i] === '#') {
                 $count++;
             }
@@ -101,7 +123,7 @@ class Mask
         return $count;
     }
 
-    private static function cepFormatDefault()
+    private static function cepFormatDefault(): string
     {
         return '/(\d{5})(\d{3})/';
     }

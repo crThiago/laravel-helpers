@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crthiago\LaravelHelpers\Classes;
 
-class Validate
+final class Validate
 {
+    /**
+     * Validate CPF
+     *
+     * @param  string|int  $cpf Number to validate
+     *
+     * @return bool True if valid, false otherwise
+     */
     public static function cpf(string|int $cpf): bool
     {
-        $cpf = preg_replace('/[^0-9]/', '', (string) $cpf);
-        // Valida tamanho
-        if (strlen($cpf) != 11) {
-            $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
-        }
+        $cpf = self::cleanNumber($cpf, 11);
         // Verifica se todos os digitos são iguais
-        if (preg_match('/(\d)\1{10}/', $cpf)) {
+        if (strlen($cpf) !== 11 || preg_match('/(\d)\1{10}/', $cpf)) {
             return false;
         }
         // Calcula e confere primeiro dígito verificador
@@ -31,21 +36,24 @@ class Validate
         return $cpf[10] == ($resto < 2 ? 0 : 11 - $resto);
     }
 
-    public static function cnpj(string|int $cnpj):bool
+    /**
+     * Validate CNPJ
+     *
+     * @param  string|int  $cnpj Number to validate
+     *
+     * @return bool True if valid, false otherwise
+     */
+    public static function cnpj(string|int $cnpj): bool
     {
-        $cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj);
-        // Valida tamanho
-        if (strlen($cnpj) != 14) {
-            $cnpj = str_pad($cnpj, 14, '0', STR_PAD_LEFT);
-        }
+        $cnpj = self::cleanNumber($cnpj, 14);
         // Verifica se todos os digitos são iguais
-        if (preg_match('/(\d)\1{13}/', $cnpj)) {
+        if (strlen($cnpj) !== 14 || preg_match('/(\d)\1{13}/', $cnpj)) {
             return false;
         }
         // Calcula e confere primeiro dígito verificador
         for ($i = 0, $j = 5, $soma = 0; $i < 12; $i++) {
             $soma += $cnpj[$i] * $j;
-            $j = ($j == 2) ? 9 : $j - 1;
+            $j = $j == 2 ? 9 : $j - 1;
         }
         $resto = $soma % 11;
         if ($cnpj[12] != ($resto < 2 ? 0 : 11 - $resto)) {
@@ -54,9 +62,15 @@ class Validate
         // Calcula e confere segundo dígito verificador
         for ($i = 0, $j = 6, $soma = 0; $i < 13; $i++) {
             $soma += $cnpj[$i] * $j;
-            $j = ($j == 2) ? 9 : $j - 1;
+            $j = $j == 2 ? 9 : $j - 1;
         }
         $resto = $soma % 11;
         return $cnpj[13] == ($resto < 2 ? 0 : 11 - $resto);
+    }
+
+    private static function cleanNumber(string|int $number, int $length): string
+    {
+        $number = preg_replace('/[^0-9]/', '', (string) $number);
+        return str_pad($number, $length, '0', STR_PAD_LEFT);
     }
 }
