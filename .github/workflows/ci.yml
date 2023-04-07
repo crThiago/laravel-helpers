@@ -34,3 +34,6 @@ jobs:
 
     - name: Run test suite
       run: vendor/bin/phpunit
+
+    - name: Run PHPinsights
+      run: vendor/bin/phpinsights -n --ansi --format=github-action
