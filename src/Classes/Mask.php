@@ -19,9 +19,7 @@ final class Mask
     {
         $cpf = preg_replace('/[^0-9]/', '', (string) $cpf);
         $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
-        if (strlen($cpf) !== 11) {
-            throw new \Exception('Invalid CPF number: ' . $cpf);
-        }
+        throw_if(strlen($cpf) !== 11, new \Exception('Invalid CPF number: ' . $cpf));
         return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $cpf);
     }
 
@@ -38,9 +36,7 @@ final class Mask
     {
         $cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj);
         $cnpj = str_pad($cnpj, 14, '0', STR_PAD_LEFT);
-        if (strlen($cnpj) !== 14) {
-            throw new \Exception('Invalid CNPJ number: ' . $cnpj);
-        }
+        throw_if(strlen($cnpj) !== 14, new \Exception('Invalid CNPJ number: ' . $cnpj));
         return preg_replace('/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/', '$1.$2.$3/$4-$5', $cnpj);
     }
 
@@ -56,9 +52,7 @@ final class Mask
     public static function phone(string|int $phone): string
     {
         $phone = preg_replace('/[^0-9]/', '', (string) $phone);
-        if (strlen($phone) < 10 || strlen($phone) > 11) {
-            throw new \Exception('Invalid phone number: ' . $phone);
-        }
+        throw_if(strlen($phone) < 10 || strlen($phone) > 11, new \Exception('Invalid phone number: ' . $phone));
         return preg_replace('/(\d{2})(\d{5}|\d{4})(\d{4})/', '($1) $2-$3', $phone);
     }
 
@@ -75,9 +69,7 @@ final class Mask
     {
         $cep = preg_replace('/[^0-9]/', '', (string) $cep);
         $cep = str_pad($cep, 8, '0', STR_PAD_LEFT);
-        if (strlen($cep) !== 8) {
-            throw new \Exception('Invalid CEP number: ' . $cep);
-        }
+        throw_if(strlen($cep) !== 8, new \Exception('Invalid CEP number: ' . $cep));
         return preg_replace(self::cepFormatDefault(), '$1-$2', $cep);
     }
 
@@ -98,8 +90,11 @@ final class Mask
         $lengthMask = self::lengthHashtag($mask);
         if ($padType !== false) {
             $value = str_pad($value, self::lengthHashtag($mask), '0', $padType);
-        } elseif (strlen($value) < $lengthMask || strlen($value) > $lengthMask) {
-            throw new \Exception('Invalid value: ' . $value);
+        } else {
+            throw_if(
+                strlen($value) < $lengthMask || strlen($value) > $lengthMask,
+                new \Exception('Invalid value: ' . $value)
+            );
         }
 
         $maskared = '';

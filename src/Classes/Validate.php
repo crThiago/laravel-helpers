@@ -20,20 +20,12 @@ final class Validate
         if (strlen($cpf) !== 11 || preg_match('/(\d)\1{10}/', $cpf)) {
             return false;
         }
-        // Calcula e confere primeiro dígito verificador
-        for ($i = 0, $j = 10, $soma = 0; $i < 9; $i++, $j--) {
-            $soma += $cpf[$i] * $j;
-        }
-        $resto = $soma % 11;
-        if ($cpf[9] != ($resto < 2 ? 0 : 11 - $resto)) {
+        $dv1 = self::calculateDigit($cpf, 9, 10);
+        if ($cpf[9] != $dv1) {
             return false;
         }
-        // Calcula e confere segundo dígito verificador
-        for ($i = 0, $j = 11, $soma = 0; $i < 10; $i++, $j--) {
-            $soma += $cpf[$i] * $j;
-        }
-        $resto = $soma % 11;
-        return $cpf[10] == ($resto < 2 ? 0 : 11 - $resto);
+        $dv2 = self::calculateDigit($cpf, 10, 11);
+        return $cpf[10] == $dv2;
     }
 
     /**
@@ -50,27 +42,28 @@ final class Validate
         if (strlen($cnpj) !== 14 || preg_match('/(\d)\1{13}/', $cnpj)) {
             return false;
         }
-        // Calcula e confere primeiro dígito verificador
-        for ($i = 0, $j = 5, $soma = 0; $i < 12; $i++) {
-            $soma += $cnpj[$i] * $j;
-            $j = $j == 2 ? 9 : $j - 1;
-        }
-        $resto = $soma % 11;
-        if ($cnpj[12] != ($resto < 2 ? 0 : 11 - $resto)) {
+        $dv1 = self::calculateDigit($cnpj, 12, 5);
+        if ($cnpj[12] != $dv1) {
             return false;
         }
-        // Calcula e confere segundo dígito verificador
-        for ($i = 0, $j = 6, $soma = 0; $i < 13; $i++) {
-            $soma += $cnpj[$i] * $j;
-            $j = $j == 2 ? 9 : $j - 1;
-        }
-        $resto = $soma % 11;
-        return $cnpj[13] == ($resto < 2 ? 0 : 11 - $resto);
+        $dv2 = self::calculateDigit($cnpj, 13, 6);
+        return $cnpj[13] == $dv2;
     }
 
     private static function cleanNumber(string|int $number, int $length): string
     {
         $number = preg_replace('/[^0-9]/', '', (string) $number);
         return str_pad($number, $length, '0', STR_PAD_LEFT);
+    }
+
+    private static function calculateDigit(string $number, int $position, int $factor): int
+    {
+        $sum = 0;
+        for ($i = 0; $i < $position; $i++) {
+            $sum += $number[$i] * $factor;
+            $factor = $factor == 2 ? 9 : $factor - 1;
+        }
+        $rest = $sum % 11;
+        return $rest < 2 ? 0 : 11 - $rest;
     }
 }
