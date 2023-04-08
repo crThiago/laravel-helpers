@@ -1,4 +1,4 @@
-name: PHP Composer
+name: CI
 
 on:
   push:
@@ -36,4 +36,4 @@ jobs:
       run: vendor/bin/phpunit
 
     - name: Run PHPinsights
-      run: vendor/bin/phpinsights -n --ansi --format=github-action
+      run: vendor/bin/phpinsights -n --ansi --format=github-action --min-quality=95 --min-complexity=50 --min-architecture=100 --min-style=100

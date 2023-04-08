@@ -1,4 +1,9 @@
 # LARAVEL HELPERS
+
+[![CI](https://github.com/crThiago/laravel-helpers/actions/workflows/ci.yml/badge.svg)](https://github.com/crThiago/laravel-helpers/actions/workflows/ci.yml)
+[![Latest Stable Version](http://poser.pugx.org/crthiago/laravel-helpers/v)](https://packagist.org/packages/crthiago/laravel-helpers) 
+[![License](http://poser.pugx.org/crthiago/laravel-helpers/license)](https://packagist.org/packages/crthiago/laravel-helpers) 
+
 O projeto Laravel Helpers é um pacote de funções e classes que facilitam o desenvolvimento de aplicações BR desenvolvidas em Laravel.
 
 ## Instalação
